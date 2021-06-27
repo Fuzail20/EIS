@@ -86,27 +86,27 @@ namespace EIS.BLL
         {
             //EmployeeBs employeeObjBs = new EmployeeBs();
 
-            ////Unique Employee Id Validation
-            //string EmployeeIdValue = emp.EmployeeId.ToString();
-            //int count = employeeObjBs.GetALL().Where(x => x.EmployeeId == EmployeeIdValue).ToList().Count();
-            //if (count != 0)
-            //{
-            //    Errors.Add("EmployeeId Already Exist");
-            //}
+            //Unique Employee Id Validation
+            string EmployeeIdValue = emp.EmployeeId.ToString();
+            int count = GetALL().Where(x => x.EmployeeId == EmployeeIdValue).ToList().Count();
+            if (count != 0)
+            {
+                Errors.Add("EmployeeId Already Exist");
+            }
 
-            ////Unique Email Validation
-            //string EmailValue = emp.Email.ToString();
-            //count = employeeObjBs.GetALL().Where(x => x.Email == EmailValue).ToList().Count();
-            //if (count != 0)
-            //{
-            //    Errors.Add("Email Already Exist");
-            //}
+            //Unique Email Validation
+            string EmailValue = emp.Email.ToString();
+            count = GetALL().Where(x => x.Email == EmailValue).ToList().Count();
+            if (count != 0)
+            {
+                Errors.Add("Email Already Exist");
+            }
 
-            //if (Errors.Count() == 0)
-            //    return true;
-            //else
-            //    return false;
-            return true; 
+            if (Errors.Count() == 0)
+                return true;
+            else
+                return false;
+
         }
 
         public bool IsValidOnUpdate(Employee emp)

@@ -6,15 +6,16 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using System.Web.Http.Description;
 
 namespace EIS.API.Controllers
 {
-   
+   [EnableCors("*","*","*")]
     public class EmployeeController : ApiController
     {
         EmployeeBs employeeObjBs;
-
+         
         public EmployeeController()
         {
             employeeObjBs = new EmployeeBs();
@@ -42,8 +43,19 @@ namespace EIS.API.Controllers
         {
             if (ModelState.IsValid)
             {
-                employeeObjBs.Insert(employee);
-                return CreatedAtRoute("DefaultApi", new { id = employee.EmployeeId }, employee);
+                if(employeeObjBs.Insert(employee))
+                {
+                    employeeObjBs.Insert(employee);
+                    return CreatedAtRoute("DefaultApi", new { id = employee.EmployeeId }, employee);
+                }
+                else 
+                {
+                    foreach (var error in employeeObjBs.Errors)
+                    {
+                        ModelState.AddModelError("", error);
+                    }
+                    return BadRequest(ModelState);
+                }
             }
             else
             {
